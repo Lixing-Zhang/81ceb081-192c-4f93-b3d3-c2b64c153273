@@ -4,14 +4,10 @@ namespace App\Services;
 
 use App\Data\StudentResponseData;
 
-class DiagnosticReport
+class DiagnosticReport extends Report
 {
-    public function __construct(private DataLoader $dataLoader)
-    {
 
-    }
-
-    public function generateReport(?string $studentId)
+    public function generateReport(string $studentId): array
     {
         $student = $this->getStudent($studentId);
 
@@ -38,9 +34,8 @@ class DiagnosticReport
         $groups = collect($lastResponse->responses)->groupBy('question.strand');
 
         $output = [
-            "{$student->firstName} {$student->lastName} recently completed {$assessment->name} assessment on 16th December 2021 10:46 AM",
-            "He got {$questionsCorrectCount} questions right out of {$questionsCount}. Details by strand given below:",
-            "",
+            "{$student->firstName} {$student->lastName} recently completed {$assessment->name} assessment on {$lastResponse->completed->format('jS F Y g:i A')}",
+            "He got {$questionsCorrectCount} questions right out of {$questionsCount}. Details by strand given below:" . PHP_EOL,
         ];
 
         foreach ($groups as $strand => $group) {
@@ -49,19 +44,5 @@ class DiagnosticReport
         }
 
         return $output;
-    }
-
-    public function getStudent(string $studentId)
-    {
-        $students = $this->dataLoader->getStudents();
-
-        return $students->where('id', $studentId)->first();
-    }
-
-    public function getAssessment(string $assessmentId = 'assessment1')
-    {
-        $assessments = $this->dataLoader->getAssessments();
-
-        return $assessments->where('id', $assessmentId)->first();
     }
 }

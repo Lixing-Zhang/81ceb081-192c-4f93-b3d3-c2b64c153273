@@ -70,6 +70,9 @@ class DataLoader
         return StudentResponseData::collection($responses);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function buildResponsesForStudent(string $studentId)
     {
         $studentResponses = $this->getStudentResponses();
@@ -87,8 +90,14 @@ class DataLoader
 
                 $response['question'] = $question;
 
+                $response['question'] = $question;
+
                 $response['is_correct'] = $response['response'] == $question->config['key'];
             }
+
+            $data->count = count($data->responses);
+
+            $data->correctCount = collect($data->responses)->where('is_correct', true)->count();
 
             return $data;
         })->toCollection();
