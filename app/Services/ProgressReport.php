@@ -12,26 +12,22 @@ class ProgressReport extends Report
     {
         $student = $this->getStudent($studentId);
 
-        if (!$student) {
-            throw new \Exception('Student not found');
-        }
-
         $responses = $this->dataLoader->buildResponsesForStudent($studentId)->sortBy('completed');
 
         $assessment = $this->getAssessment();
 
         $output = [
-            "Tony Stark has completed {$assessment->name} assessment {$responses->count()} times in total. Date and raw score given below:" . PHP_EOL,
+            "{$student->firstName} {$student->lastName} has completed {$assessment->name} assessment {$responses->count()} times in total. Date and raw score given below:" . PHP_EOL,
         ];
 
         $correctCounts = [];
         foreach ($responses as $response) {
             $correctCounts[] = $response->correctCount;
-            $output[] = "Date: {$response->completed->format('jS F Y')}, Raw Score: $response->correctCount out of {$response->count}";
+            $output[] = "Date: {$response->assigned->format('jS F Y')}, Raw Score: $response->correctCount out of {$response->count}";
         }
 
         $diff = max($correctCounts) - min($correctCounts);
-        $output[] = "Tony Stark got {$diff} more correct in the recent completed assessment than the oldest";
+        $output[] = "{$student->firstName} {$student->lastName} got {$diff} more correct in the recent completed assessment than the oldest";
         return $output;
     }
 }

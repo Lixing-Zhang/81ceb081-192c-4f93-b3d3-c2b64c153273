@@ -18,6 +18,9 @@ class DataLoader
         $this->dataPath = base_path('seeds');
     }
 
+    /**
+     * @throws \Exception
+     */
     public function getAssessments(): DataCollection
     {
         $assessmentsFilePath = $this->dataPath . '/assessments.json';
@@ -31,6 +34,9 @@ class DataLoader
         return AssessmentData::collection($assessments);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function getStudents(): DataCollection
     {
         $studentsFilePath = $this->dataPath . '/students.json';
@@ -73,7 +79,7 @@ class DataLoader
     /**
      * @throws \Exception
      */
-    public function buildResponsesForStudent(string $studentId)
+    public function buildResponsesForStudent(string $studentId): Enumerable
     {
         $studentResponses = $this->getStudentResponses();
 
@@ -98,6 +104,7 @@ class DataLoader
             $data->correctCount = $data->responses->where('isCorrect', true)->count();
 
             return $data;
+
         })->toCollection();
     }
 

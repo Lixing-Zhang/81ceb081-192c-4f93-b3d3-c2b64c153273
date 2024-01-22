@@ -2,8 +2,6 @@
 
 namespace App\Services;
 
-use App\Data\StudentResponseData;
-
 class DiagnosticReport extends Report
 {
 
@@ -12,11 +10,8 @@ class DiagnosticReport extends Report
      */
     public function generateReport(string $studentId): array
     {
-        $student = $this->getStudent($studentId);
 
-        if (!$student) {
-            throw new \Exception('Student not found');
-        }
+        $student = $this->getStudent($studentId);
 
         $lastResponse = $this->dataLoader->buildResponsesForStudent($studentId)
             ->sortByDesc('completed')->first();

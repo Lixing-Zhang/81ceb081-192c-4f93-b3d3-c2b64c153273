@@ -12,10 +12,6 @@ class FeedbackReport extends Report
     {
         $student = $this->getStudent($studentId);
 
-        if (!$student) {
-            throw new \Exception('Student not found');
-        }
-
         $lastResponse = $this->dataLoader->buildResponsesForStudent($studentId)
             ->sortByDesc('completed')->first();
 
@@ -36,7 +32,7 @@ class FeedbackReport extends Report
                 $yourAnswer = collect($response->question->config['options'])->where('id', $response->response)->first();
                 $output[] = "Question: {$response->question->stem}";
                 $output[] = "Your answer: {$yourAnswer['label']} with value {$yourAnswer['value']}";
-                $output[] = "Right answer:: {$rightAnswer['label']} with value {$rightAnswer['value']}";
+                $output[] = "Right answer: {$rightAnswer['label']} with value {$rightAnswer['value']}";
                 $output[] = "Hint: {$response->question->config['hint']}";
             }
         }

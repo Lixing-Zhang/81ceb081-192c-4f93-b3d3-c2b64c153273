@@ -13,7 +13,13 @@ abstract class Report
     {
         $students = $this->dataLoader->getStudents();
 
-        return $students->where('id', $studentId)->first();
+        $student = $students->where('id', $studentId)->first();
+
+        if (!$student) {
+            throw new \Exception('Sorry, we could not find this student ID');
+        }
+
+        return $student;
     }
 
     /**
