@@ -33,7 +33,7 @@ class FeedbackReport extends Report
                 $output[] = "Question: {$response->question->stem}";
                 $output[] = "Your answer: {$yourAnswer['label']} with value {$yourAnswer['value']}";
                 $output[] = "Right answer: {$rightAnswer['label']} with value {$rightAnswer['value']}";
-                $output[] = "Hint: {$response->question->config['hint']}";
+                $output[] = "Hint: {$response->question->config['hint']}" . PHP_EOL;
             }
         }
 

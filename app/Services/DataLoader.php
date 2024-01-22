@@ -90,7 +90,7 @@ class DataLoader
 
         })->map(function (StudentResponseData $data) use ($questions) {
 
-            foreach ($data->responses as &$response) {
+            foreach ($data->responses as $response) {
 
                 $question = $questions->where('id', $response->questionId)->first();
 

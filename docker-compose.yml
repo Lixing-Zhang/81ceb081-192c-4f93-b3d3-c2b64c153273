@@ -1,0 +1,18 @@
+version: '3'
+services:
+  app:
+    container_name: app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: "php application reporting"
+    volumes:
+      - .:/var/app
+  test:
+    container_name: test
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: "php application test"
+    volumes:
+      - .:/var/app

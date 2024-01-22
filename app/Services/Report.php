@@ -38,5 +38,5 @@ abstract class Report
         return $assessment;
     }
 
-    abstract function generateReport(string $studentId);
+    abstract function generateReport(string $studentId): array;
 }

@@ -11,7 +11,6 @@ use Illuminate\Support\Str;
 use LaravelZero\Framework\Commands\Command;
 
 use function Laravel\Prompts\text;
-use function Laravel\Prompts\suggest;
 use function Termwind\{render};
 
 class ReportingCommand extends Command
@@ -34,23 +33,24 @@ class ReportingCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle(
-        DiagnosticReport $diagnosticReport,
-        ProgressReport $progressReport,
-        FeedbackReport $feedbackReport
-    ): void {
+    public function handle(DiagnosticReport $diagnosticReport, ProgressReport $progressReport, FeedbackReport $feedbackReport): void
+    {
         $this->line('Please enter the following');
 
         try {
-            $studentId = text('Student ID', required: true);
+            $studentId = $this->ask('Student ID');
 
-            $report = suggest(
-                label: 'Report to generate (1 for Diagnostic, 2 for Progress, 3 for Feedback)',
-                options: Report::toArray(), required: true,
-                validate: fn (string $value) => match (true) {
-                    !in_array($value, Report::values()) && !in_array($value, Report::names()) => 'The report must be either Diagnostic, Progress or Feedback ',
-                    default => null
-                });
+            if (empty($studentId)) {
+                $this->warn('Student ID is empty');
+                return;
+            }
+
+            $report = $this->askWithCompletion('Report to generate (1 for Diagnostic, 2 for Progress, 3 for Feedback)', Report::toArray());
+
+            if (empty($report)) {
+                $this->warn('Report ID is empty');
+                return;
+            }
 
             if (is_numeric($report)) {
                 $report = Report::tryFrom($report)?->name;
@@ -73,12 +73,12 @@ class ReportingCommand extends Command
                 default:
                     $this->warn('Sorry, you have provided invalid report number!');
                     $outputs = [];
+
             }
 
             foreach ($outputs as $output) {
                 $this->info($output);
             }
-
         } catch (\Exception $e) {
             $this->warn($e->getMessage());
         }

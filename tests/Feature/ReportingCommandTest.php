@@ -1,6 +1,6 @@
 <?php
 
-it('can run reporting cli', function () {
+it('can run diagnostic report', function () {
     $this->artisan('reporting')
         ->expectsQuestion('Student ID', 'student1')
         ->expectsQuestion('Report to generate (1 for Diagnostic, 2 for Progress, 3 for Feedback)', '1')
@@ -9,7 +9,9 @@ it('can run reporting cli', function () {
         ->expectsOutputToContain('Number and Algebra: 5 out of 5 correct')
         ->expectsOutputToContain('Statistics and Probability: 3 out of 4 correct')
         ->assertExitCode(0);
+});
 
+it('can run progress report', function () {
     $this->artisan('reporting')
         ->expectsQuestion('Student ID', 'student1')
         ->expectsQuestion('Report to generate (1 for Diagnostic, 2 for Progress, 3 for Feedback)', '2')
@@ -19,7 +21,9 @@ it('can run reporting cli', function () {
         ->expectsOutputToContain('Date: 14th December 2021, Raw Score: 15 out of 16')
         ->expectsOutputToContain('Tony Stark got 9 more correct in the recent completed assessment than the oldest')
         ->assertExitCode(0);
+});
 
+it('can run feedback report', function () {
     $this->artisan('reporting')
         ->expectsQuestion('Student ID', 'student1')
         ->expectsQuestion('Report to generate (1 for Diagnostic, 2 for Progress, 3 for Feedback)', '3')
