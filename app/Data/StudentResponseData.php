@@ -4,8 +4,10 @@ namespace App\Data;
 
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Optional;
+use Spatie\LaravelData\Attributes\DataCollectionOf;
 use Spatie\LaravelData\Attributes\Validation\DateFormat;
 use Spatie\LaravelData\Data;
+use Spatie\LaravelData\DataCollection;
 
 class StudentResponseData extends Data
 {
@@ -19,8 +21,9 @@ class StudentResponseData extends Data
         #[DateFormat('d/m/Y H:i:s')]
         public ?Carbon $completed,
         public StudentData $student,
-        public array $responses,
-        public array $results,
+        #[DataCollectionOf(ResponseData::class)]
+        public DataCollection $responses,
+        public ResultData $results,
         public ?int $count,
         public ?int $correctCount,
     ) {}

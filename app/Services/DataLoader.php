@@ -86,18 +86,16 @@ class DataLoader
 
             foreach ($data->responses as &$response) {
 
-                $question = $questions->where('id', $response['questionId'])->first();
+                $question = $questions->where('id', $response->questionId)->first();
 
-                $response['question'] = $question;
+                $response->question = $question;
 
-                $response['question'] = $question;
-
-                $response['is_correct'] = $response['response'] == $question->config['key'];
+                $response->isCorrect = $response->response == $question->config['key'];
             }
 
-            $data->count = count($data->responses);
+            $data->count = $data->responses->count();
 
-            $data->correctCount = collect($data->responses)->where('is_correct', true)->count();
+            $data->correctCount = $data->responses->where('isCorrect', true)->count();
 
             return $data;
         })->toCollection();

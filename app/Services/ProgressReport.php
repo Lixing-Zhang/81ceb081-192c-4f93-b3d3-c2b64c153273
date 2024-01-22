@@ -20,10 +20,6 @@ class ProgressReport extends Report
 
         $assessment = $this->getAssessment();
 
-        if (!$assessment) {
-            throw new \Exception('Assessment Response not found');
-        }
-
         $output = [
             "Tony Stark has completed {$assessment->name} assessment {$responses->count()} times in total. Date and raw score given below:" . PHP_EOL,
         ];

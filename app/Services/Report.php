@@ -16,11 +16,20 @@ abstract class Report
         return $students->where('id', $studentId)->first();
     }
 
+    /**
+     * @throws \Exception
+     */
     public function getAssessment(string $assessmentId = 'assessment1')
     {
         $assessments = $this->dataLoader->getAssessments();
 
-        return $assessments->where('id', $assessmentId)->first();
+        $assessment =  $assessments->where('id', $assessmentId)->first();
+
+        if (!$assessment) {
+            throw new \Exception('Assessment Response not found');
+        }
+
+        return $assessment;
     }
 
     abstract function generateReport(string $studentId);
