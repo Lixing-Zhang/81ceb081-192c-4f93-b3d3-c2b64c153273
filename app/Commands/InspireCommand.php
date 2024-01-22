@@ -2,7 +2,9 @@
 
 namespace App\Commands;
 
+use App\Enums\Report;
 use App\Services\DataLoader;
+use App\Services\DiagnosticReport;
 use Illuminate\Console\Scheduling\Schedule;
 use LaravelZero\Framework\Commands\Command;
 
@@ -15,7 +17,7 @@ class InspireCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'inspire {name=Artisan}';
+    protected $signature = 'inspire';
 
     /**
      * The description of the command.
@@ -29,9 +31,40 @@ class InspireCommand extends Command
      */
     public function handle(): void
     {
-        $loader = new DataLoader();
+        $this->line('Please enter the following');
 
-        dd($loader->getStudentResponses());
+        try {
+            $studentId = $this->ask('Student ID');
+
+            $report = $this->askWithCompletion('Report to generate (1 for Diagnostic, 2 for Progress, 3 for Feedback)', Report::toArray());
+
+            if (is_numeric($report)) {
+                $report = Report::tryFrom($report)?->name;
+            }
+
+            switch ($report) {
+                case Report::Diagnostic->name:
+                    $outputs = (app(DiagnosticReport::class)->generateReport($studentId));
+                    break;
+                case Report::Progress->name:
+                    $outputs = (app(DiagnosticReport::class)->generateReport($studentId));
+                    break;
+                case Report::Feedback->name:
+                    $outputs = (app(DiagnosticReport::class)->generateReport($studentId));
+                    break;
+                default:
+                    $this->warn('Invalid report number');
+                    $outputs = [];
+
+            }
+
+            foreach ($outputs as $output) {
+                $this->info($output);
+            }
+        } catch (\Exception $e) {
+            $this->warn($e->getMessage());
+        }
+
     }
 
     /**

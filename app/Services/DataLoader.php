@@ -6,6 +6,7 @@ use App\Data\AssessmentData;
 use App\Data\QuestionData;
 use App\Data\StudentData;
 use App\Data\StudentResponseData;
+use Illuminate\Support\Enumerable;
 use Spatie\LaravelData\DataCollection;
 
 class DataLoader
@@ -68,4 +69,29 @@ class DataLoader
 
         return StudentResponseData::collection($responses);
     }
+
+    public function buildResponsesForStudent(string $studentId)
+    {
+        $studentResponses = $this->getStudentResponses();
+
+        $questions = $this->getQuestions();
+
+        return $studentResponses->filter(function (StudentResponseData $data) use ($studentId, $questions){
+            return $data->student->id == $studentId && $data->isCompleted();
+
+        })->map(function (StudentResponseData $data) use ($questions) {
+
+            foreach ($data->responses as &$response) {
+
+                $question = $questions->where('id', $response['questionId'])->first();
+
+                $response['question'] = $question;
+
+                $response['is_correct'] = $response['response'] == $question->config['key'];
+            }
+
+            return $data;
+        })->toCollection();
+    }
+
 }
