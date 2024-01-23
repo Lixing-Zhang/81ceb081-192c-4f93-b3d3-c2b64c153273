@@ -50,14 +50,6 @@ class ReportingCommand extends Command
                 return;
             }
 
-            $report = ReportEnum::tryFrom($report);
-
-            if (! $report) {
-                $this->warn('Sorry, you have provided invalid report number!');
-
-                return;
-            }
-
             if (! Str::startsWith($studentId, 'student')) {
                 $studentId = 'student'.$studentId;
             }

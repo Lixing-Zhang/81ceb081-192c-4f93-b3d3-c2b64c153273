@@ -16,6 +16,9 @@ class ReportManager
         $this->reports = $reports;
     }
 
+    /**
+     * @throws \Exception
+     */
     public function generateReport(string $studentId, ReportEnum|string|int $reportEnum): array
     {
         foreach ($this->reports as $report) {
@@ -24,6 +27,6 @@ class ReportManager
             }
         }
 
-        return [];
+        throw new \Exception('Sorry, you have provided invalid report number!');
     }
 }
