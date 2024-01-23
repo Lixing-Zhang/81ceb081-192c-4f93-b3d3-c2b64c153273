@@ -11,6 +11,9 @@ abstract class Report
 
     }
 
+    /**
+     * @throws \Exception
+     */
     public function getStudent(string $studentId)
     {
         $students = $this->dataLoader->getStudents();
