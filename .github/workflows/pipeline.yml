@@ -28,8 +28,5 @@ jobs:
         with:
           commit_message: Apply laravel pint changes
 
-      - name: Directory Permissions
-        run: chmod -R 777 storage bootstrap/cache
-
       - name: Execute tests (Unit and Feature tests) via PHPUnit
         run: php application test
