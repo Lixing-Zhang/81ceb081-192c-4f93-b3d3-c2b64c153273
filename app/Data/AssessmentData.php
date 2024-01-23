@@ -10,5 +10,6 @@ class AssessmentData extends Data
         public string $id,
         public string $name,
         public array $questions
-    ) {}
+    ) {
+    }
 }

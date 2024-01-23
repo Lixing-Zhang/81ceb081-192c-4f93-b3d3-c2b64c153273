@@ -22,5 +22,4 @@ enum Report: int
     {
         return array_column(self::cases(), 'name');
     }
-
 }

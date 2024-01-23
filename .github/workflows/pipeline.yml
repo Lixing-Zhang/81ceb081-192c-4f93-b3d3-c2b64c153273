@@ -1,0 +1,35 @@
+name: Reporting
+
+on:
+  push:
+  pull_request:
+    types: [ opened, reopened ]
+
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container:
+      image: kirschbaumdevelopment/laravel-test-runner:8.2
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install additional PHP extensions
+        run: apt-get update && apt-get install -y php8.2-xdebug
+
+      - name: Install Dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+      - name: Run laravel pint
+        run: ./vendor/bin/pint
+
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Apply laravel pint changes
+
+      - name: Directory Permissions
+        run: chmod -R 777 storage bootstrap/cache
+
+      - name: Execute tests (Unit and Feature tests) via PHPUnit
+        run: php application test

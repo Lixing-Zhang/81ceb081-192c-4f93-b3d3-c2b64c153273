@@ -7,6 +7,7 @@ use Spatie\LaravelData\Data;
 class ResultData extends Data
 {
     public function __construct(
-      public int $rawScore,
-    ) {}
+        public int $rawScore,
+    ) {
+    }
 }

@@ -3,7 +3,6 @@
 namespace App\Data;
 
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Optional;
 use Spatie\LaravelData\Attributes\DataCollectionOf;
 use Spatie\LaravelData\Attributes\Validation\DateFormat;
 use Spatie\LaravelData\Data;
@@ -26,10 +25,11 @@ class StudentResponseData extends Data
         public ResultData $results,
         public ?int $count,
         public ?int $correctCount,
-    ) {}
+    ) {
+    }
 
     public function isCompleted(): bool
     {
-        return !is_null($this->completed);
+        return ! is_null($this->completed);
     }
 }

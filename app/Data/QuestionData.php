@@ -12,5 +12,6 @@ class QuestionData extends Data
         public string $type,
         public string $strand,
         public array $config,
-    ) {}
+    ) {
+    }
 }

@@ -9,7 +9,7 @@ return [
         ],
         'file' => [
             'driver' => 'file',
-            'path'   => __DIR__ . '/../storage',
+            'path' => __DIR__.'/../storage',
         ],
-    ]
+    ],
 ];

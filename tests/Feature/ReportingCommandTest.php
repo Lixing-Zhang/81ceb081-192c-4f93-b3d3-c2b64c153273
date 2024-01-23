@@ -35,4 +35,3 @@ it('can run feedback report', function () {
         ->expectsOutputToContain('Hint: You must first arrange the numbers in ascending order. The median is the middle term, which in this case is 9')
         ->assertExitCode(0);
 });
-

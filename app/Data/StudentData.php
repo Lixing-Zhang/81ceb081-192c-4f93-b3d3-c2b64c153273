@@ -12,5 +12,6 @@ class StudentData extends Data
         public string|Optional $firstName,
         public string|Optional $lastName,
         public int $yearLevel
-    ) {}
+    ) {
+    }
 }

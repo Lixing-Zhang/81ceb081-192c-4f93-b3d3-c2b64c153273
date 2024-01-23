@@ -23,9 +23,9 @@ class DataLoader
      */
     public function getAssessments(): DataCollection
     {
-        $assessmentsFilePath = $this->dataPath . '/assessments.json';
+        $assessmentsFilePath = $this->dataPath.'/assessments.json';
 
-        if (!file_exists($assessmentsFilePath)) {
+        if (! file_exists($assessmentsFilePath)) {
             throw new \Exception('Assessments file not found');
         }
 
@@ -39,9 +39,9 @@ class DataLoader
      */
     public function getStudents(): DataCollection
     {
-        $studentsFilePath = $this->dataPath . '/students.json';
+        $studentsFilePath = $this->dataPath.'/students.json';
 
-        if (!file_exists($studentsFilePath)) {
+        if (! file_exists($studentsFilePath)) {
             throw new \Exception('Students file not found');
         }
 
@@ -52,9 +52,9 @@ class DataLoader
 
     public function getQuestions(): DataCollection
     {
-        $questionsFilePath = $this->dataPath . '/questions.json';
+        $questionsFilePath = $this->dataPath.'/questions.json';
 
-        if (!file_exists($questionsFilePath)) {
+        if (! file_exists($questionsFilePath)) {
             throw new \Exception('Questions file not found');
         }
 
@@ -65,9 +65,9 @@ class DataLoader
 
     public function getStudentResponses(): DataCollection
     {
-        $responsesFilePath = $this->dataPath . '/student-responses.json';
+        $responsesFilePath = $this->dataPath.'/student-responses.json';
 
-        if (!file_exists($responsesFilePath)) {
+        if (! file_exists($responsesFilePath)) {
             throw new \Exception('Student Responses file not found');
         }
 
@@ -85,7 +85,7 @@ class DataLoader
 
         $questions = $this->getQuestions();
 
-        return $studentResponses->filter(function (StudentResponseData $data) use ($studentId, $questions){
+        return $studentResponses->filter(function (StudentResponseData $data) use ($studentId) {
             return $data->student->id == $studentId && $data->isCompleted();
 
         })->map(function (StudentResponseData $data) use ($questions) {
@@ -107,5 +107,4 @@ class DataLoader
 
         })->toCollection();
     }
-
 }

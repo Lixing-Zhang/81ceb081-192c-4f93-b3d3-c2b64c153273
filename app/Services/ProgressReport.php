@@ -4,7 +4,6 @@ namespace App\Services;
 
 class ProgressReport extends Report
 {
-
     /**
      * @throws \Exception
      */
@@ -17,7 +16,7 @@ class ProgressReport extends Report
         $assessment = $this->getAssessment();
 
         $output = [
-            "{$student->firstName} {$student->lastName} has completed {$assessment->name} assessment {$responses->count()} times in total. Date and raw score given below:" . PHP_EOL,
+            "{$student->firstName} {$student->lastName} has completed {$assessment->name} assessment {$responses->count()} times in total. Date and raw score given below:".PHP_EOL,
         ];
 
         $correctCounts = [];
@@ -28,6 +27,7 @@ class ProgressReport extends Report
 
         $diff = max($correctCounts) - min($correctCounts);
         $output[] = "{$student->firstName} {$student->lastName} got {$diff} more correct in the recent completed assessment than the oldest";
+
         return $output;
     }
 }

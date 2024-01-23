@@ -15,7 +15,7 @@ abstract class Report
 
         $student = $students->where('id', $studentId)->first();
 
-        if (!$student) {
+        if (! $student) {
             throw new \Exception('Sorry, we could not find this student ID');
         }
 
@@ -29,14 +29,14 @@ abstract class Report
     {
         $assessments = $this->dataLoader->getAssessments();
 
-        $assessment =  $assessments->where('id', $assessmentId)->first();
+        $assessment = $assessments->where('id', $assessmentId)->first();
 
-        if (!$assessment) {
+        if (! $assessment) {
             throw new \Exception('Assessment Response not found');
         }
 
         return $assessment;
     }
 
-    abstract function generateReport(string $studentId): array;
+    abstract public function generateReport(string $studentId): array;
 }

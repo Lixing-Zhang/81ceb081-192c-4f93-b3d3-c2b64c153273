@@ -10,12 +10,10 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Str;
 use LaravelZero\Framework\Commands\Command;
 
-use function Laravel\Prompts\text;
 use function Termwind\{render};
 
 class ReportingCommand extends Command
 {
-
     /**
      * The signature of the command.
      *
@@ -42,6 +40,7 @@ class ReportingCommand extends Command
 
             if (empty($studentId)) {
                 $this->warn('Student ID is empty');
+
                 return;
             }
 
@@ -49,6 +48,7 @@ class ReportingCommand extends Command
 
             if (empty($report)) {
                 $this->warn('Report ID is empty');
+
                 return;
             }
 
@@ -56,8 +56,8 @@ class ReportingCommand extends Command
                 $report = Report::tryFrom($report)?->name;
             }
 
-            if (!Str::startsWith($studentId, 'student')) {
-                $studentId = 'student'. $studentId;
+            if (! Str::startsWith($studentId, 'student')) {
+                $studentId = 'student'.$studentId;
             }
 
             switch ($report) {
