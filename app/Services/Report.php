@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Enums\ReportEnum;
+
 abstract class Report
 {
     public function __construct(protected DataLoader $dataLoader)
@@ -39,4 +41,6 @@ abstract class Report
     }
 
     abstract public function generateReport(string $studentId): array;
+
+    abstract public function forReport(ReportEnum|string|int $reportEnum): bool;
 }

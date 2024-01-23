@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum Report: int
+enum ReportEnum: int
 {
     case Diagnostic = 1;
     case Progress = 2;

@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Enums\ReportEnum;
+
 class ProgressReport extends Report
 {
     /**
@@ -29,5 +31,10 @@ class ProgressReport extends Report
         $output[] = "{$student->firstName} {$student->lastName} got {$diff} more correct in the recent completed assessment than the oldest";
 
         return $output;
+    }
+
+    public function forReport(ReportEnum|string|int $reportEnum): bool
+    {
+        return in_array($reportEnum, [ReportEnum::Progress, ReportEnum::Progress->name, ReportEnum::Progress->value]);
     }
 }

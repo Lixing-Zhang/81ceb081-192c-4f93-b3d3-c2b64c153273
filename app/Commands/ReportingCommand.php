@@ -2,10 +2,8 @@
 
 namespace App\Commands;
 
-use App\Enums\Report;
-use App\Services\DiagnosticReport;
-use App\Services\FeedbackReport;
-use App\Services\ProgressReport;
+use App\Enums\ReportEnum;
+use App\Services\ReportManager;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Str;
 use LaravelZero\Framework\Commands\Command;
@@ -31,7 +29,7 @@ class ReportingCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle(DiagnosticReport $diagnosticReport, ProgressReport $progressReport, FeedbackReport $feedbackReport): void
+    public function handle(ReportManager $reportManager): void
     {
         $this->line('Please enter the following');
 
@@ -44,7 +42,7 @@ class ReportingCommand extends Command
                 return;
             }
 
-            $report = $this->askWithCompletion('Report to generate (1 for Diagnostic, 2 for Progress, 3 for Feedback)', Report::toArray());
+            $report = $this->askWithCompletion('Report to generate (1 for Diagnostic, 2 for Progress, 3 for Feedback)', ReportEnum::toArray());
 
             if (empty($report)) {
                 $this->warn('Report ID is empty');
@@ -52,29 +50,19 @@ class ReportingCommand extends Command
                 return;
             }
 
-            if (is_numeric($report)) {
-                $report = Report::tryFrom($report)?->name;
+            $report = ReportEnum::tryFrom($report);
+
+            if (! $report) {
+                $this->warn('Sorry, you have provided invalid report number!');
+
+                return;
             }
 
             if (! Str::startsWith($studentId, 'student')) {
                 $studentId = 'student'.$studentId;
             }
 
-            switch ($report) {
-                case Report::Diagnostic->name:
-                    $outputs = $diagnosticReport->generateReport($studentId);
-                    break;
-                case Report::Progress->name:
-                    $outputs = $progressReport->generateReport($studentId);
-                    break;
-                case Report::Feedback->name:
-                    $outputs = $feedbackReport->generateReport($studentId);
-                    break;
-                default:
-                    $this->warn('Sorry, you have provided invalid report number!');
-                    $outputs = [];
-
-            }
+            $outputs = $reportManager->generateReport($studentId, $report);
 
             foreach ($outputs as $output) {
                 $this->info($output);

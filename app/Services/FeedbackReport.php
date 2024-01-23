@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Enums\ReportEnum;
+
 class FeedbackReport extends Report
 {
     /**
@@ -37,5 +39,10 @@ class FeedbackReport extends Report
         }
 
         return $output;
+    }
+
+    public function forReport(ReportEnum|string|int $reportEnum): bool
+    {
+        return in_array($reportEnum, [ReportEnum::Feedback, ReportEnum::Feedback->name, ReportEnum::Feedback->value]);
     }
 }
