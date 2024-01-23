@@ -35,3 +35,19 @@ it('can run feedback report', function () {
         ->expectsOutputToContain('Hint: You must first arrange the numbers in ascending order. The median is the middle term, which in this case is 9')
         ->assertExitCode(0);
 });
+
+it('can run with invalid report', function () {
+    $this->artisan('reporting')
+        ->expectsQuestion('Student ID', 'student1')
+        ->expectsQuestion('Report to generate (1 for Diagnostic, 2 for Progress, 3 for Feedback)', '5')
+        ->expectsOutputToContain('Sorry, you have provided invalid report number!')
+        ->assertExitCode(0);
+});
+
+it('can run with invalid student', function () {
+    $this->artisan('reporting')
+        ->expectsQuestion('Student ID', 'student6')
+        ->expectsQuestion('Report to generate (1 for Diagnostic, 2 for Progress, 3 for Feedback)', '3')
+        ->expectsOutputToContain('Sorry, we could not find this student ID')
+        ->assertExitCode(0);
+});
